@@ -23,7 +23,7 @@
         "noUnusedParameters": false,
         "noFallthroughCasesInSwitch": true,
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["./src/renderer/src/*"]
         }
     },
     "include": [
@@ -31,6 +31,7 @@
     ],
     "exclude": [
         "node_modules",
-        "dist"
+        "dist",
+        "out"
     ]
 }

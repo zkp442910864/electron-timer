@@ -28,7 +28,7 @@ export default tsEslint.config(
                 tsconfigRootDir: import.meta.name,
             },
             ecmaVersion: 'latest',
-            globals: globals.browser,
+            // globals: globals.browser,
             parser: tsEslint.parser,
         },
         plugins: {
