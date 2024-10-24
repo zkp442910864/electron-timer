@@ -5,6 +5,12 @@ import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 
 // https://cn.electron-vite.org/guide/
 export default defineConfig(({ command, mode, }) => ({
+    main: {
+        plugins: [externalizeDepsPlugin(),],
+    },
+    preload: {
+        plugins: [externalizeDepsPlugin(),],
+    },
     renderer: {
         plugins: [
             react(),
@@ -12,18 +18,12 @@ export default defineConfig(({ command, mode, }) => ({
         ],
         resolve: {
             alias: [
-                { find: '@', replacement: resolve('./src/renderer/src'), },
+                { find: '@web', replacement: resolve('./src/renderer/src'), },
             ],
         },
         server: {
             host: true,
             port: 6573,
         },
-    },
-    main: {
-        plugins: [externalizeDepsPlugin(),],
-    },
-    preload: {
-        plugins: [externalizeDepsPlugin(),],
     },
 }));

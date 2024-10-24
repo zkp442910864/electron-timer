@@ -13,10 +13,13 @@ dist
 dist-ssr
 *.local
 out
+python/build
+python/*.spec
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/launch.json
 .idea
 .DS_Store
 *.suo

@@ -23,7 +23,7 @@
         "noUnusedParameters": false,
         "noFallthroughCasesInSwitch": true,
         "paths": {
-            "@/*": ["./src/renderer/src/*"]
+            "@web/*": ["./src/renderer/src/*"]
         }
     },
     "include": [

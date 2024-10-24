@@ -1,7 +1,7 @@
 import { createBrowserRouter, createHashRouter, Navigate } from 'react-router-dom';
-import { ErrorComponent, LayoutRoot, Loading, NoFindPage } from '@/layout';
+import { ErrorComponent, LayoutRoot, Loading, NoFindPage } from '@web/layout';
 import { lazy, Suspense } from 'react';
-import App from '@/App';
+import App from '@web/App';
 import { ICustomRouteObject, ServerDataModel } from '../index.type';
 
 export class CustomRouter {
@@ -70,7 +70,7 @@ export class CustomRouter {
 
     /** 获取本地 pages 文件 */
     getLocalPages() {
-        this.localPagePromiseFnMap = import.meta.glob('@/pages/**/index.tsx') as typeof this.localPagePromiseFnMap;
+        this.localPagePromiseFnMap = import.meta.glob('@web/pages/**/index.tsx') as typeof this.localPagePromiseFnMap;
         return this.localPagePromiseFnMap;
     }
 

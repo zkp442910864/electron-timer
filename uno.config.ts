@@ -91,9 +91,9 @@ export default defineConfig({
         ['bg-f', { 'background-color': '#fff', },],
 
         // 禁止选择
-        ['disabled-select', { 'user-select': 'none', },],
+        ['d-select', { 'user-select': 'none', },],
         // 禁止事件
-        ['disabled-event', { 'pointer-events': 'none', },],
+        ['d-event', { 'pointer-events': 'none', },],
 
         // 鼠标手势
         ['pointer', { cursor: 'pointer', },],

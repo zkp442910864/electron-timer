@@ -1,4 +1,4 @@
-import { useDebounceEffect } from '@/hooks';
+import { useDebounceEffect } from '@web/hooks';
 import { FC } from 'react';
 import { useLocation, useRouteError } from 'react-router-dom';
 
