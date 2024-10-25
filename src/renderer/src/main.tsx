@@ -4,10 +4,13 @@ import { RouterProvider } from 'react-router-dom';
 import { CustomRouter } from './router';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { baseDataStore } from './store';
 import '@unocss/reset/eric-meyer.css';
 import 'virtual:uno.css';
 
-void (() => {
+void (async () => {
+    const baseData = await window.storeGetAll();
+    baseDataStore.getState().updateBaseData(baseData);
     dayjs.extend(duration);
     createRoot(document.getElementById('root')!).render(
         <StrictMode>

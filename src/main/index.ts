@@ -2,6 +2,10 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/logo-ico.ico?asset';
+import { KeyboardMouse } from './modules/keyboardMouse';
+import { GlobalDataStore } from './modules/globalDataStore';
+
+const storeInstance = GlobalDataStore.getInstance();
 
 function createWindow(): void {
     // 创建浏览器窗口。
@@ -22,8 +26,18 @@ function createWindow(): void {
         },
     });
 
+    KeyboardMouse.getInstance(() => {
+        mainWindow.webContents.send('KeyboardMouse');
+    });
+
     mainWindow.on('ready-to-show', () => {
         mainWindow.show();
+
+        // storeInstance.storeSet('autoStart', false);
+        // console.log(`[${storeInstance.storeGet('autoStart') ? '开启' : '关闭'}]自动计时功能`);
+        if (storeInstance.storeGet('autoStart')) {
+            KeyboardMouse.getInstance().start();
+        }
     });
 
     mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -60,6 +74,7 @@ void app.whenReady().then(() => {
 
     // IPC测试
     ipcMain.on('ping', () => console.log('pong'));
+    storeInstance.register();
 
     createWindow();
 
@@ -75,6 +90,7 @@ void app.whenReady().then(() => {
 // 直到用户使用 Cmd + Q 明确退出
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
+        KeyboardMouse.getInstance().kill();
         app.quit();
     }
 });
