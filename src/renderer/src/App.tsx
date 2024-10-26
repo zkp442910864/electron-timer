@@ -6,7 +6,14 @@ import 'dayjs/locale/zh-cn';
 const App = () => {
 
     return (
-        <ConfigProvider locale={zhCN}>
+        <ConfigProvider
+            locale={zhCN}
+            theme={{
+                token: {
+                    colorPrimary: '#27b95a',
+                },
+            }}
+        >
             <Outlet />
         </ConfigProvider>
     );

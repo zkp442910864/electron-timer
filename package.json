@@ -15,6 +15,7 @@
         "build:linux": "electron-vite build && electron-builder --linux"
     },
     "dependencies": {
+        "@ant-design/icons": "^5.5.1",
         "@electron-toolkit/preload": "^3.0.1",
         "@electron-toolkit/utils": "^3.0.0",
         "@unocss/reset": "^0.63.6",
@@ -22,6 +23,7 @@
         "child_process": "^1.0.2",
         "dayjs": "^1.11.13",
         "electron-store": "^10.0.0",
+        "ffi-napi": "^4.0.3",
         "js-yaml": "^4.1.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
@@ -31,6 +33,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.11.1",
+        "@types/ffi-napi": "^4.0.10",
         "@types/js-yaml": "^4.0.9",
         "@types/node": "^22.7.9",
         "@types/react": "^18.3.12",

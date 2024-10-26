@@ -1,24 +1,30 @@
 import { ipcMain } from 'electron';
 import Store from 'electron-store';
 import yaml from 'js-yaml';
-import { KeyboardMouse } from './keyboardMouse';
 
 export class GlobalDataStore {
     private static instance: GlobalDataStore;
 
     store: InstanceType<typeof Store> | null = null;
+    /** 初始化后，本地保存一份，不要一直操作读 */
+    globalDataStore: IGlobalAppCacheData | null = null;
+    interceptSetFn;
 
-    static getInstance() {
+    static getInstance(interceptSetFn?: TInterceptSet) {
         if (!GlobalDataStore.instance) {
-            GlobalDataStore.instance = new GlobalDataStore();
+            if (!interceptSetFn) {
+                throw new Error('第一次实例化，需要传入参数');
+            }
+            GlobalDataStore.instance = new GlobalDataStore(interceptSetFn);
         }
 
         return GlobalDataStore.instance;
     }
 
-    private constructor() {
+    private constructor(interceptSetFn: TInterceptSet) {
+        this.interceptSetFn = interceptSetFn;
         this.init();
-
+        this.globalDataStore = this.storeGetAll();
     }
 
     init() {
@@ -48,9 +54,7 @@ export class GlobalDataStore {
         });
 
         ipcMain.handle('storeSet', (event, key: keyof IGlobalAppCacheData, value: IGlobalAppCacheData[keyof IGlobalAppCacheData]) => {
-            if (key === 'autoStart') {
-                value ? KeyboardMouse.getInstance().start() : KeyboardMouse.getInstance().kill();
-            }
+            this.interceptSetFn(key, value);
             this.storeSet(key, value);
         });
 
@@ -60,6 +64,9 @@ export class GlobalDataStore {
     }
 
     storeGet = <T extends keyof IGlobalAppCacheData>(key: T) => {
+        if (this.globalDataStore) {
+            return this.globalDataStore[key];
+        }
         return this.store!.get(key) as IGlobalAppCacheData[T];
     };
 
@@ -68,6 +75,11 @@ export class GlobalDataStore {
     };
 
     storeSet = <T extends keyof IGlobalAppCacheData>(key: T, value: IGlobalAppCacheData[T]) => {
+        if (this.globalDataStore) {
+            this.globalDataStore[key] = value;
+        }
         this.store!.set(key, value);
     };
 }
+
+type TInterceptSet = <T extends keyof IGlobalAppCacheData>(key: T, value: IGlobalAppCacheData[T]) => void;

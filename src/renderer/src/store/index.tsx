@@ -28,10 +28,6 @@ const timerData = {
     reachCountVal: 0,
     /** 是否开启中 */
     status: false,
-    /** 展示数值 */
-    numberArr: new Array(10).fill(''),
-    /** 格式 */
-    formatArr: '00:00:00'.split(''),
 };
 export const [, useTimerDataStore,] = createCustom<typeof timerData>((cache, set) => cache(timerData));
 

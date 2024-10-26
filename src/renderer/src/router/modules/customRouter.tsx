@@ -97,6 +97,7 @@ export class CustomRouter {
     /** 异步加载组件 */
     lazyComponent(fn: typeof this.localPagePromiseFnMap[string]) {
         const Module = lazy(fn);
+        // return this.loadingComponent;
         return (
             <Suspense fallback={this.loadingComponent}>
                 <Module></Module>
