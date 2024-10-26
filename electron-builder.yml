@@ -1,0 +1,33 @@
+# https://www.electron.build/configuration
+appId: com.electron.timer
+productName: timer
+icon: resources/logo-ico.ico
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+asarUnpack:
+  - resources/**
+extraResources:
+  - from: 'resources/keyboard_mouse.exe'
+    to: 'resources/keyboard_mouse.exe'
+nsis:
+  # https://www.electron.build/app-builder-lib.interface.nsisoptions
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  artifactName: ${name}-${version}-setup.${ext}
+  createStartMenuShortcut: false
+  deleteAppDataOnUninstall: true
+  installerIcon: resources/logo-ico.ico
+  installerHeaderIcon: resources/logo-ico.ico
+  perMachine: true
+win:
+  icon: resources/logo-ico.ico
+  executableName: timer
+electronLanguages:
+  - 'zh-CN'

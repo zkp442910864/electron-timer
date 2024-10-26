@@ -1,13 +1,13 @@
 {
-    "name": "electron-timer",
+    "name": "timer",
     "private": true,
-    "version": "0.0.0",
+    "version": "0.0.2",
     "type": "module",
     "main": "./out/main/index.js",
     "scripts": {
         "dev": "electron-vite dev -w",
         "start": "electron-vite preview",
-        "build": "tsc -b && && electron-vite build",
+        "build": "tsc -b && electron-vite build",
         "postinstall": "electron-builder install-app-deps",
         "build:unpack": "npm run build && electron-builder --dir",
         "build:win": "npm run build && electron-builder --win",
@@ -23,7 +23,6 @@
         "child_process": "^1.0.2",
         "dayjs": "^1.11.13",
         "electron-store": "^10.0.0",
-        "ffi-napi": "^4.0.3",
         "js-yaml": "^4.1.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
@@ -33,7 +32,6 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.11.1",
-        "@types/ffi-napi": "^4.0.10",
         "@types/js-yaml": "^4.0.9",
         "@types/node": "^22.7.9",
         "@types/react": "^18.3.12",

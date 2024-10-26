@@ -5,13 +5,12 @@ import icon from '../../resources/logo-ico.ico?asset';
 import { KeyboardMouse } from './modules/keyboardMouse';
 import { GlobalDataStore } from './modules/globalDataStore';
 import { Timer } from './modules/timer';
-import ffi from 'ffi-napi';
 
 
 class Main {
 
-    // isDev = is.dev;
-    isBoxDev = false;
+    isBoxDev = is.dev;
+    // isBoxDev = false;
     mainWindow: InstanceType<typeof BrowserWindow> | null = null;
     floatWindow: InstanceType<typeof BrowserWindow> | null = null;
     keyboardMouseInstance = KeyboardMouse.getInstance(() => {

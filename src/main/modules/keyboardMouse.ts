@@ -1,7 +1,7 @@
 import treeKill from 'tree-kill';
 import pyExe from '../../../resources/keyboard_mouse.exe?asset';
 import { spawn } from 'child_process';
-
+import { is } from '@electron-toolkit/utils';
 
 export class KeyboardMouse {
     private static instance: KeyboardMouse;
@@ -27,7 +27,9 @@ export class KeyboardMouse {
 
     start() {
         if (this.pythonProcess) return;
-        this.pythonProcess = spawn(pyExe);
+        // join(process.resourcesPath, 'resources', 'keyboard_mouse.exe');
+        // const pyExe = join('../../../resources/keyboard_mouse.exe');
+        this.pythonProcess = spawn(is.dev ? pyExe : pyExe.replace('app.asar', 'app.asar.unpacked'));
 
         // 监听 Python 进程的输出，获取键盘事件
         this.pythonProcess.stdout!.on('data', (data) => {
