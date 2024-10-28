@@ -5,16 +5,17 @@ import icon from '../../resources/logo-ico.ico?asset';
 import { KeyboardMouse } from './modules/keyboardMouse';
 import { GlobalDataStore } from './modules/globalDataStore';
 import { Timer } from './modules/timer';
-
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration.js';
 
 class Main {
 
-    isBoxDev = is.dev;
-    // isBoxDev = false;
+    // isBoxDev = is.dev;
+    isBoxDev = false;
     mainWindow: InstanceType<typeof BrowserWindow> | null = null;
     floatWindow: InstanceType<typeof BrowserWindow> | null = null;
     keyboardMouseInstance = KeyboardMouse.getInstance(() => {
-        this.timer.start();
+        this.timer.play();
     });
     storeInstance = GlobalDataStore.getInstance((key, value) => {
         if (key === 'autoStart') {
@@ -41,6 +42,8 @@ class Main {
 
 
     constructor() {
+        dayjs.extend(duration);
+
         // 这段程序将会在 Electron 结束初始化
         // 和创建浏览器窗口的时候调用
         // 部分 API 在 ready 事件触发后才能使用。
@@ -82,7 +85,7 @@ class Main {
         this.timer.sendTime(mainWindow);
 
         mainWindow.on('ready-to-show', () => {
-            // mainWindow.show();
+            this.isBoxDev && mainWindow.show();
 
             ipcMain.on('mainWindowMinimize', () => {
                 mainWindow?.minimize();
@@ -119,7 +122,7 @@ class Main {
         const floatWindow = this.floatWindow = new BrowserWindow({
             ...this.isBoxDev
                 ? { width: 240, height: 126, autoHideMenuBar: false, }
-                : { width: 210, height: 50, resizable: false, autoHideMenuBar: true, frame: false, transparent: true, alwaysOnTop: true, },
+                : { width: 230, height: 50, resizable: false, autoHideMenuBar: true, frame: false, transparent: true, alwaysOnTop: true, },
             show: false,
             title: '计时器浮窗',
             icon,
@@ -137,10 +140,34 @@ class Main {
 
         this.timer.sendTime(floatWindow);
         this.disableTitleBarMenu(floatWindow);
+
         floatWindow.setSkipTaskbar(true);
+        if (this.storeInstance.storeGet('floatWinPosition') && this.storeInstance.storeGet('floatWinPosition')?.length) {
+            const arr = this.storeInstance.storeGet('floatWinPosition');
+            floatWindow.setPosition(...arr as [number, number]);
+        }
+        else {
+            floatWindow.setPosition(screen.getPrimaryDisplay().workAreaSize.width / 2 - 120, 50);
+        }
 
-        floatWindow.setPosition(screen.getPrimaryDisplay().workAreaSize.width / 2 - 120, 50);
 
+        floatWindow.on('move', () => {
+            const arr = floatWindow.getPosition();
+            this.storeInstance.storeSet('floatWinPosition', arr);
+        });
+        // floatWindow.setIgnoreMouseEvents(true, { forward: true, });
+        // ipcMain.on('setIgnoreMouseEvents', (event, value) => {
+        //     if (value) {
+        //         floatWindow.setIgnoreMouseEvents(true, { forward: true, });
+        //     }
+        //     else {
+        //         floatWindow.setIgnoreMouseEvents(false);
+        //     }
+        // });
+
+        ipcMain.on('moverFloatWindow', (event, x, y) => {
+            floatWindow.setPosition(x as number, y as number);
+        });
 
         floatWindow.on('ready-to-show', () => {
             floatWindow.show();
@@ -148,7 +175,7 @@ class Main {
 
         if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
             void floatWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/FloatWin');
-            // floatWindow.webContents.openDevTools();
+            floatWindow.webContents.openDevTools();
         }
         else {
             // void floatWindow.loadFile(join(__dirname, '../renderer/index.html'));

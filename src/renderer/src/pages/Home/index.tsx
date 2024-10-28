@@ -1,8 +1,10 @@
-import { EllipsisOutlined, LineOutlined, MinusOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, LineOutlined, MinusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { TimeModule } from '@web/components/TimeModule';
 import { useBaseDataStore } from '@web/store';
-import { Button, Checkbox, InputNumber } from 'antd';
+import { Button, Checkbox, InputNumber, Tooltip } from 'antd';
 import { useMemo } from 'react';
+import logo from '../../../../../resources/logo.svg?asset';
+import { LogButton } from '@web/components/LogButton';
 
 const Home = () => {
     const stateStore = useBaseDataStore();
@@ -16,7 +18,10 @@ const Home = () => {
                 <div className="un-h30px"></div>
                 <div className="abs un-top--1px un-w100% text-right flex">
                     <Button.Group className="un-w100%" style={{ boxShadow: '0 1px 4px 0 #cfcfcf8f', }}>
-                        <Button title="拖动" style={{ borderBottomLeftRadius: 0, borderLeft: 0, WebkitAppRegion: 'drag', } as never} className="f-1">计时器</Button>
+                        <Button title="拖动" style={{ borderBottomLeftRadius: 0, borderLeft: 0, WebkitAppRegion: 'drag', } as never} className="f-1 f-justify-start">
+                            <img src={logo}/>
+                            计时器
+                        </Button>
                         <Button title="最小化" style={{ borderBottomRightRadius: 0, borderRight: 0, width: 50, }} icon={<LineOutlined />} onClick={window.mainWindowMinimize}></Button>
                     </Button.Group>
                 </div>
@@ -25,19 +30,25 @@ const Home = () => {
                 <div className="un-w100% p-10 flex f-justify-between f-items-center m-y-30">
                     <div className="un-text-26px un-font-bold">操作</div>
                     <div className="flex un-gap10px">
-                        <Button disabled={stateStore.data.autoStart} onClick={window.timerReset}>重置</Button>
+                        <LogButton>
+                            <Button onClick={window.timerResetZero}>
+                                置零
+                                <QuestionCircleOutlined />
+                            </Button>
+                        </LogButton>
+                        {/* <Button disabled={stateStore.data.autoStart} onClick={window.timerReset}>重置</Button>
                         <Button disabled={stateStore.data.autoStart} color="default" variant="solid" onClick={window.timerStop}>停止</Button>
-                        <Button disabled={stateStore.data.autoStart} type="primary" onClick={window.timerStart}>开始</Button>
+                        <Button disabled={stateStore.data.autoStart} type="primary" onClick={window.timerStart}>开始</Button> */}
                     </div>
                 </div>
                 <div className="un-w100% p-10 m-y-30">
                     <div className="un-text-26px un-font-bold">设置</div>
-                    <div className=" flex f-justify-between f-items-center p-t-15">
+                    {/* <div className=" flex f-justify-between f-items-center p-t-15">
                         <div>开启自动计时(开启后,禁止操作)</div>
                         <Checkbox checked={stateStore.data.autoStart} onChange={(e) => {
                             stateStore.updateAssignKey('autoStart', e.target.checked);
                         }} />
-                    </div>
+                    </div> */}
                     <div className=" flex f-justify-between f-items-center p-t-15">
                         <div>{stateStore.data.timeoutVal}分钟不操作后，自定停止计时(设置为0不执行该操作)(需要开启自动计时)</div>
                         <InputNumber
