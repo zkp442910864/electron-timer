@@ -1,7 +1,7 @@
-import { EllipsisOutlined, LineOutlined, MinusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { LineOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { TimeModule } from '@web/components/TimeModule';
 import { useBaseDataStore } from '@web/store';
-import { Button, Checkbox, InputNumber, Tooltip } from 'antd';
+import { Button, Checkbox, InputNumber } from 'antd';
 import { useMemo } from 'react';
 import logo from '../../../../../resources/logo.svg?asset';
 import { LogButton } from '@web/components/LogButton';

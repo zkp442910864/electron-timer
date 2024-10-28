@@ -4,7 +4,7 @@ export const [baseDataStore, useBaseDataStore,] = createCustom<IBaseData>((cache
     data: {
         timeoutVal: null,
         reachVal: null,
-        autoStart: false,
+        autoStart: true,
         showFloatWindow: false,
         autoLaunch: false,
         dayData: [],

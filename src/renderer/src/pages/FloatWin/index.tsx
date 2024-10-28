@@ -1,9 +1,8 @@
 import { RedoOutlined } from '@ant-design/icons';
 import { TimeModule } from '@web/components/TimeModule';
 import { Button } from 'antd';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import logo from '../../../../../resources/logo.svg?asset';
-import { LogButton } from '@web/components/LogButton';
 
 const FloatWin = () => {
 

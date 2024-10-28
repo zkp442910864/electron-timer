@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain, Menu, Tray, screen } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources/logo-ico.ico?asset';
+import icon from '../../build/icon.ico?asset';
 import { KeyboardMouse } from './modules/keyboardMouse';
 import { GlobalDataStore } from './modules/globalDataStore';
 import { Timer } from './modules/timer';
